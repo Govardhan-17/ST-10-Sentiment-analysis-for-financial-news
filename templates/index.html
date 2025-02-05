@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis for Financial News</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background with Images */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('financial-news.jpg') no-repeat center center/cover, linear-gradient(45deg, #1e3c72, #2a5298, #0f2027);
+            background-blend-mode: overlay;
+            background-size: cover;
+            animation: gradientAnimation 10s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        header, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            animation: fadeIn 3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="fade-in">Sentiment Analysis for Financial News</h1>
+    </header>
+    
+    <main>
+        <section class="info">
+            <p class="slide-up">Analyze financial news to determine market sentiment and make informed decisions.</p>
+        </section>
+        
+        <button id="predict-btn" class="pulse">Predict Sentiment</button>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
+    </footer>
+</body>
+</html>
