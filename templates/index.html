@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentiment Analysis for Financial News</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             margin: 0;
@@ -13,11 +12,12 @@
             font-family: Arial, sans-serif;
             text-align: center;
             color: white;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
+            scroll-behavior: smooth;
         }
-        
-        /* Animated Background with Images */
+
+        /* Background Animation */
         body::before {
             content: "";
             position: fixed;
@@ -31,46 +31,211 @@
             animation: gradientAnimation 10s infinite alternate;
             z-index: -1;
         }
-        
+
         @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
-        
-        header, main, footer {
-            position: relative;
-            z-index: 1;
+
+        /* Navigation Bar */
+        nav {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
         }
-        
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff9800;
+        }
+
+        header {
+            margin-top: 80px;
+        }
+
         h1 {
             animation: fadeIn 3s ease-in-out;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .info-box {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .info-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        h2 {
+            color: #ff9800;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 300px;
+            margin: auto;
+        }
+
+        /* Enhanced Button - Placed at Center */
+        .btn-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            background-color: #ff9800;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0px 0px 20px rgba(255, 152, 0, 1);
+        }
+
+        button:hover {
+            background-color: #e68900;
+            transform: scale(1.1);
+            box-shadow: 0px 0px 30px rgba(255, 152, 0, 1);
+        }
+
+        button:active {
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
 </head>
 <body>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
     <header>
-        <h1 class="fade-in">Sentiment Analysis for Financial News</h1>
+        <h1>Sentiment Analysis for Financial News</h1>
     </header>
-    
-    <main>
-        <section class="info">
-            <p class="slide-up">Analyze financial news to determine market sentiment and make informed decisions.</p>
+
+    <main class="container">
+
+        <!-- Left: Info Box -->
+        <section class="info-box">
+            <h2>📈 Market Trends</h2>
+            <p>AI-driven sentiment analysis evaluates financial news to identify market sentiment. Investors can use this data for better decision-making.</p>
+            <img src="sentiment-analysis.png" alt="Sentiment Analysis">
         </section>
-        
-        <button id="predict-btn" class="pulse">Predict Sentiment</button>
+
+        <!-- Center: Button -->
+        <div class="btn-container">
+            <button id="predict-btn">Analyze Sentiment</button>
+        </div>
+
+        <!-- Right: Chart -->
+        <section class="info-box">
+            <h2>📊 Sentiment Distribution</h2>
+            <p>Real-time visualization of financial news sentiment.</p>
+            <div class="chart-container">
+                <canvas id="sentimentChart"></canvas>
+            </div>
+        </section>
+
     </main>
-    
+
     <footer>
         <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const predictButton = document.getElementById("predict-btn");
+            predictButton.addEventListener("click", function () {
+                window.location.href = "/predict";
+            });
+
+            // Chart Data
+            const ctx = document.getElementById('sentimentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Positive', 'Neutral', 'Negative'],
+                    datasets: [{
+                        label: 'Market Sentiment (%)',
+                        data: [45, 30, 25], // Sample data
+                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        borderColor: ['#388E3C', '#FFA000', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
