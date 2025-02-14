@@ -10,9 +10,9 @@ except ImportError:
 
 app = Flask(__name__)
 
-# Use raw strings or forward slashes to fix file paths
-vectorizer_path = r"C:\Users\govar\Desktop\ST-10 Sentiment analysis for financial news\vectorizer.pickle"
-model_path = r"C:\Users\govar\Desktop\ST-10 Sentiment analysis for financial news\model.pickle"
+# Define paths for model files
+vectorizer_path = "vectorizer.pickle"
+model_path = "model.pickle"
 
 # Load vectorizer and model safely
 if not os.path.exists(vectorizer_path) or not os.path.exists(model_path):
