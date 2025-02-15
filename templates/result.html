@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Result</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .result-box {
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .positive {
+            background: #00ff88;
+            color: #121212;
+            box-shadow: 0 0 20px #00ff88;
+        }
+
+        .neutral {
+            background: #999;
+            color: #121212;
+            box-shadow: 0 0 20px #999;
+        }
+
+        .negative {
+            background: #ff4444;
+            color: #121212;
+            box-shadow: 0 0 20px #ff4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-box" id="result">{{ sentiment }}</div>
+
+    <script>
+        const resultBox = document.getElementById('result');
+        const sentiment = resultBox.innerText;
+
+        if (sentiment.includes("Positive")) {
+            resultBox.classList.add("positive");
+        } else if (sentiment.includes("Neutral")) {
+            resultBox.classList.add("neutral");
+        } else if (sentiment.includes("Negative")) {
+            resultBox.classList.add("negative");
+        }
+    </script>
+</body>
+</html>

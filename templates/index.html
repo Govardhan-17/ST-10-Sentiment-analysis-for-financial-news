@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentiment Analysis for Financial News</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
     <style>
         body {
             background: linear-gradient(45deg, #1e3c72, #2a5298);
@@ -14,18 +12,22 @@
             text-align: center;
             animation: fadeIn 2s ease-in;
         }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
         .container {
             padding: 20px;
             animation: slideIn 1.5s ease-in-out;
         }
+
         @keyframes slideIn {
             from { transform: translateY(-50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
         #predict-btn {
             background-color: #ffcc00;
             border: none;
@@ -34,9 +36,11 @@
             cursor: pointer;
             transition: transform 0.3s ease-in-out;
         }
+
         #predict-btn:hover {
             transform: scale(1.1);
         }
+
         .news-image {
             width: 100%;
             max-width: 600px;
@@ -59,5 +63,20 @@
         <button id="predict-btn">Predict Sentiment</button>
         <div id="result" class="hidden"></div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const predictButton = document.getElementById("predict-btn");
+
+            if (predictButton) {
+                predictButton.addEventListener("click", function () {
+                    window.location.href = "/predict";
+ // Redirects to /predict
+                });
+            } else {
+                console.error("Predict button not found!");
+            }
+        });
+    </script>
 </body>
 </html>
